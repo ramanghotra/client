@@ -20,7 +20,7 @@ const Deck = ({ decks }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -46,7 +46,7 @@ const Deck = ({ decks }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {

@@ -59,15 +59,6 @@ const NavBar = ({ setAuth, text }) => {
 							</a>
 						</li>
 						<li class="nav-item">
-							<a
-								class="nav-link active"
-								aria-current="page"
-								href="/study"
-							>
-								Study
-							</a>
-						</li>
-						<li class="nav-item">
 							<button
 								class="btn btn-outline-success"
 								type="submit"

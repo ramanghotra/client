@@ -13,12 +13,13 @@ const Study = () => {
 	const [flip, setFlip] = useState(false);
 	const [previous_accuracy, setPreviousAccuracy] = useState(0);
 	const [previous_attempt, setPreviousAttempt] = useState(0);
+	const [incorrectCards, setIncorrectCards] = useState([]);
 	const navigate = useNavigate();
 
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/view/info/${id}`,
+				`http://localhost:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -32,8 +33,9 @@ const Study = () => {
 
 			setNumberOfCards(parseRes.cards.length);
 			setDisplayText(parseRes.cards[0].question);
-			setPreviousAccuracy(parseRes.deck.accuracy);
-			setPreviousAttempt(parseRes.deck.attempts);
+			setPreviousAccuracy(parseRes.accuracy.accuracy);
+			setPreviousAttempt(parseRes.accuracy.attempts);
+            console.log("BRO PLEASE");
 			console.log(parseRes);
 		} catch (err) {
 			console.error(err.message);
@@ -42,9 +44,13 @@ const Study = () => {
 
 	useEffect(() => {
 		fetchData();
+        console.log("123")
+
 	}, []);
 
 	const handleNext = (e) => {
+        
+
 		e.preventDefault();
 		// check to see if we are at the end of the deck
 		if (cardIndex === numberOfCards - 1) {
@@ -64,13 +70,15 @@ const Study = () => {
 	};
 
 	const submitFinal = async () => {
-		setAccuracy(((numberOfCorrect / numberOfCards) * 100).toFixed(2));
-		console.log("aman is dad12");
-		let send_attempts = previous_attempt + 1;
+        let new_attempts = previous_attempt + 1;
+        let send_accuracy = (((cardsList.length - incorrectCards.length) / cardsList.length) * 100).toFixed(2);
+        setAccuracy(send_accuracy);
+        console.log(accuracy);
+
 		try {
-			const body = { accuracy, send_attempts };
+			const body = { send_accuracy, new_attempts };
 			const response = await fetch(
-				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/update/${id}`,
+				`http://localhost:3001/study/update/${id}`,
 				{
 					method: "PUT",
 					headers: {
@@ -101,11 +109,21 @@ const Study = () => {
 	};
 
 	const onCorrect = (e) => {
+		setNumberOfCorrect(numberOfCorrect + 1);
 		e.preventDefault();
 	};
 
 	const onIncorrect = (e) => {
+        console.log("aman is daddddy");
 		e.preventDefault();
+		console.log("im gay");
+		// add the card object to the incorrectCards array
+		let incorrectCard = cardsList[cardIndex];
+		let { question, answer } = incorrectCard;
+		let card = { question, answer };
+		setIncorrectCards((incorrectCards) => [...incorrectCards, card]);
+
+		console.log(incorrectCards);
 	};
 
 	return (
@@ -183,9 +201,21 @@ const Study = () => {
 				<h1 className="text-center">End of Deck</h1>
 				{/* Display Results */}
 				<h2>Results for Current Attempt #{previous_attempt + 1}</h2>
-				<h3>Accuracy: {accuracy}% </h3>
+				<h3>Accuracy: {accuracy} % </h3>
 				<h3>Previous Attempts: {previous_attempt} </h3>
 				<h3>Previous Accuracy: {previous_accuracy}% </h3>
+				{/* display all cards in incorrectcards array */}
+				<h3>Incorrect Cards</h3>
+				<ul>
+					{incorrectCards.map((card, index) => {
+						return (
+							<li key={index}>
+								<h4>Question: {card.question}</h4>
+								<h4>Answer: {card.answer}</h4>
+							</li>
+						);
+					})}
+				</ul>
 			</div>
 		</div>
 	);

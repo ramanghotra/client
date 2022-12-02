@@ -32,17 +32,14 @@ const CreateCards = ({ setAuth }) => {
 
 			// post to create cards route
 
-			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/create/cards",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						token: localStorage.token,
-					},
-					body: JSON.stringify(body),
-				}
-			);
+			const response = await fetch("http://localhost:3001/create/cards", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					token: localStorage.token,
+				},
+				body: JSON.stringify(body),
+			});
 
 			const parseRes = await response.json();
 			if (parseRes) {
