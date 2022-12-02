@@ -36,10 +36,13 @@ function App() {
 	const checkAuth = async () => {
 		console.log("check auth");
 		try {
-			const response = await fetch("http://localhost:3001/auth/verify", {
-				method: "GET",
-				headers: { token: localStorage.token },
-			});
+			const response = await fetch(
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/auth/verify",
+				{
+					method: "GET",
+					headers: { token: localStorage.token },
+				}
+			);
 			const parseRes = await response.json();
 			console.log(parseRes);
 

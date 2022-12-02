@@ -9,16 +9,16 @@ const Search = () => {
 		console.log("fetchData12121212");
 		try {
 			const response = await fetch(
-				`http://localhost:3001/search/decks/${searchTerm.id}`,
+				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/search/decks/${searchTerm.id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
 				}
 			);
 			const parseRes = await response.json();
-            setDecks(parseRes);
+			setDecks(parseRes);
 			console.log("ParseRes", parseRes);
-            console.log(decks)
+			console.log(decks);
 		} catch (err) {
 			console.error(err.message);
 		}

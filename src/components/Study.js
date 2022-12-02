@@ -19,7 +19,7 @@ const Study = () => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://localhost:3001/study/view/info/${id}`,
+				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -35,7 +35,7 @@ const Study = () => {
 			setDisplayText(parseRes.cards[0].question);
 			setPreviousAccuracy(parseRes.accuracy.accuracy);
 			setPreviousAttempt(parseRes.accuracy.attempts);
-            console.log("BRO PLEASE");
+			console.log("BRO PLEASE");
 			console.log(parseRes);
 		} catch (err) {
 			console.error(err.message);
@@ -44,13 +44,10 @@ const Study = () => {
 
 	useEffect(() => {
 		fetchData();
-        console.log("123")
-
+		console.log("123");
 	}, []);
 
 	const handleNext = (e) => {
-        
-
 		e.preventDefault();
 		// check to see if we are at the end of the deck
 		if (cardIndex === numberOfCards - 1) {
@@ -70,15 +67,18 @@ const Study = () => {
 	};
 
 	const submitFinal = async () => {
-        let new_attempts = previous_attempt + 1;
-        let send_accuracy = (((cardsList.length - incorrectCards.length) / cardsList.length) * 100).toFixed(2);
-        setAccuracy(send_accuracy);
-        console.log(accuracy);
+		let new_attempts = previous_attempt + 1;
+		let send_accuracy = (
+			((cardsList.length - incorrectCards.length) / cardsList.length) *
+			100
+		).toFixed(2);
+		setAccuracy(send_accuracy);
+		console.log(accuracy);
 
 		try {
 			const body = { send_accuracy, new_attempts };
 			const response = await fetch(
-				`http://localhost:3001/study/update/${id}`,
+				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/update/${id}`,
 				{
 					method: "PUT",
 					headers: {
@@ -114,7 +114,7 @@ const Study = () => {
 	};
 
 	const onIncorrect = (e) => {
-        console.log("aman is daddddy");
+		console.log("aman is daddddy");
 		e.preventDefault();
 		console.log("im gay");
 		// add the card object to the incorrectCards array

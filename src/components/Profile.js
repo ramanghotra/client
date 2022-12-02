@@ -8,10 +8,13 @@ const Profile = ({ setAuth }) => {
 
 	async function fetchData() {
 		try {
-			const response = await fetch("http://localhost:3001/profile", {
-				method: "GET",
-				headers: { token: localStorage.token },
-			});
+			const response = await fetch(
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/profile",
+				{
+					method: "GET",
+					headers: { token: localStorage.token },
+				}
+			);
 
 			const parseRes = await response.json();
 			setDecks(parseRes.decks);

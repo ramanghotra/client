@@ -11,10 +11,13 @@ const Dashboard = ({ setAuth }) => {
 	console.log("Dashboard.js");
 	async function fetchData() {
 		try {
-			const response = await fetch("http://localhost:3001/dashboard/", {
-				method: "GET",
-				headers: { token: localStorage.token },
-			});
+			const response = await fetch(
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/dashboard/",
+				{
+					method: "GET",
+					headers: { token: localStorage.token },
+				}
+			);
 			const parseRes = await response.json();
 			setMessage(parseRes.message.message);
 			setDecks(parseRes.decks);
