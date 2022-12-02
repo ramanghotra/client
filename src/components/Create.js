@@ -2,7 +2,6 @@ import React, { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Create = ({ setAuth }) => {
-
 	const navigate = useNavigate();
 
 	const [name, setName] = useState("");
@@ -14,10 +13,8 @@ const Create = ({ setAuth }) => {
 
 	const { deckName, deckDescription, courseInfo } = inputs;
 
-	console.log("Create.js");
 
 	const onSubmitForm = async (e) => {
-		
 		e.preventDefault();
 		try {
 			const body = { deckName, deckDescription, courseInfo };
@@ -34,16 +31,10 @@ const Create = ({ setAuth }) => {
 
 			console.log(parseRes);
 
-			console.log(123123)
-            console.log(parseRes.deck_id);
-            console.log(123123)
-
 			localStorage.setItem("deck_id", parseRes.deck_id);
 
 			// redirect to create cards page and pass deck id as a prop
 			navigate("/create/cards", { state: { deck_id: parseRes.deck_id } });
-			
-
 		} catch (err) {
 			console.error(err.message + "From Create.js");
 			setAuth(false);
@@ -56,9 +47,9 @@ const Create = ({ setAuth }) => {
 
 	return (
 		<div>
-			<h1 className="text-center">Create</h1>
+			<h1 className="text-center">Create a Deck</h1>
 			<form onSubmit={onSubmitForm}>
-				<div className="form-group">
+				<div className="form-group mb-3">
 					<input
 						type="text"
 						className="form-control"
@@ -69,7 +60,7 @@ const Create = ({ setAuth }) => {
 						required={true}
 					/>
 				</div>
-				<div className="form-group">
+				<div className="form-group mb-3">
 					<textarea
 						className="form-control"
 						placeholder="Enter Deck Description"
@@ -80,7 +71,7 @@ const Create = ({ setAuth }) => {
 						required={true}
 					></textarea>
 				</div>
-				<div className="form-group">
+				<div className="form-group mb-3">
 					<textarea
 						className="form-control"
 						placeholder="Enter Course Information"

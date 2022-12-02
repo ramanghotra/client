@@ -1,28 +1,28 @@
-import React, { Fragment, useState, useEffect } from "react";
-import NavBar from "./NavBar";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import Admin from "./Admin";
+import ProfileDeck from "./ProfileDeck";
 
-import Deck from "./Deck";
-const Dashboard = ({ setAuth }) => {
-	const navigate = useNavigate();
+const Profile = ({ setAuth }) => {
 	const [name, setName] = useState("");
 	const [decks, setDecks] = useState([]);
-	console.log("Dashboard.js");
+
 	async function fetchData() {
 		try {
-			const response = await fetch("http://localhost:3001/dashboard/", {
+			const response = await fetch("http://localhost:3001/profile", {
 				method: "GET",
 				headers: { token: localStorage.token },
 			});
+
 			const parseRes = await response.json();
 			setDecks(parseRes.decks);
 			setName(parseRes.user);
+            console.log(name)
 			console.log("ParseRes", parseRes);
 		} catch (err) {
 			if (err.response.status === 401) {
 				localStorage.removeItem("token");
 				setAuth(false);
-				navigate("/login");
+				window.location = "/";
 			}
 		}
 	}
@@ -34,18 +34,25 @@ const Dashboard = ({ setAuth }) => {
 	return (
 		<div>
 			<div>
-				<h1 className="text-center">Dashboard</h1>
-				<h2>Hello, {name.user_firstname}</h2>
+				<h1>{name.user_firstname}'s Profile</h1>
 			</div>
 			<div>
 				{decks.length > 0 ? (
-					<Deck decks={decks} />
+					<ProfileDeck decks={decks} />
 				) : (
-					console.log("no decks")
+					<h1>No decks</h1>
 				)}
 			</div>
+			{/* Display admin console if user.role is admin */}
+			{name.user_role === "admin" ? (
+				<div>
+					<Admin />
+				</div>
+			) : (
+				<div></div>
+			)}
 		</div>
 	);
 };
 
-export default Dashboard;
+export default Profile;

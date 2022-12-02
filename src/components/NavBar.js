@@ -55,9 +55,18 @@ const NavBar = ({ setAuth, text }) => {
 							<a
 								class="nav-link active"
 								aria-current="page"
-								href="/myaccount"
+								href="/profile"
 							>
 								My Account
+							</a>
+						</li>
+						<li class="nav-item">
+							<a
+								class="nav-link active"
+								aria-current="page"
+								href="/study"
+							>
+								Study
 							</a>
 						</li>
 						<li class="nav-item">

@@ -4,23 +4,34 @@ import { Link, useLocation } from "react-router-dom";
 const CreateCards = ({ setAuth }) => {
 	const [name, setName] = useState("");
 	const [inputs, setInputs] = useState({
-		deckName: "",
-		deckDescription: "",
-		courseInfo: "",
+		question: "",
+		answer: "",
 	});
+	const [successMessage, setSuccessMessage] = useState("");
 
-    const state = useLocation().state
+	const state = useLocation().state;
+	const deck_id = state.deck_id;
 
-    console.log("State", state.state.deck_id)
+	console.log("State", state.deck_id);
 
-	const { deckName, deckDescription, courseInfo } = inputs;
+	const { question, answer } = inputs;
 
-	console.log("CreateCards.js");
+	const clearForm = () => {
+		console.log("Clearing form");
+		setInputs({
+			question: "",
+			answer: "",
+		});
+	};
 
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
 		try {
-			const body = { deckName, deckDescription, courseInfo };
+			const body = { question, answer, deck_id };
+			console.log("Body", body);
+
+			// post to create cards route
+
 			const response = await fetch("http://localhost:3001/create/cards", {
 				method: "POST",
 				headers: {
@@ -31,12 +42,19 @@ const CreateCards = ({ setAuth }) => {
 			});
 
 			const parseRes = await response.json();
-            console.log(123123)
-            console.log(parseRes.deck_id);
-            console.log(123123)
-			
+			if (parseRes) {
+				setSuccessMessage("Card created successfully");
+			} else {
+				setSuccessMessage("Card creation failed");
+			}
+
+			clearForm();
+
+			// set success message on successMessage label
+
+			console.log("ParseRes", parseRes);
 		} catch (err) {
-			console.error(err.message + "From Create.js");
+			console.error(err.message + "From CreateCards.js");
 			setAuth(false);
 		}
 	};
@@ -49,44 +67,42 @@ const CreateCards = ({ setAuth }) => {
 		<div>
 			<h1 className="text-center">Create Cards</h1>
 			<form onSubmit={onSubmitForm}>
-				<div className="form-group">
+				<div className="form-group mb-3">
 					<input
 						type="text"
 						className="form-control"
-						id="deckName"
-						placeholder="Enter Deck Name"
-						defaultValue={deckName}
+						id="question"
+						placeholder="Question"
+						value={question}
 						onChange={(e) => onChange(e)}
 						required={true}
 					/>
 				</div>
 				<div className="form-group">
-					<textarea
+					<input
+						type="text"
 						className="form-control"
-						placeholder="Enter Deck Description"
-						id="deckDescription"
-						rows="3"
-						defaultValue={deckDescription}
+						id="answer"
+						placeholder="Answer"
+						value={answer}
 						onChange={(e) => onChange(e)}
 						required={true}
-					></textarea>
+					/>
 				</div>
-				<div className="form-group">
-					<textarea
-						className="form-control"
-						placeholder="Enter Course Information"
-						id="courseInfo"
-						rows="3"
-						defaultValue={courseInfo}
-						onChange={(e) => onChange(e)}
-						required={true}
-					></textarea>
-				</div>
+				{/* Small text that indicates success message */}
+				<small id="emailHelp" className="form-text text-muted">
+					{successMessage}
+				</small>
 
-				<div className="col-md-12 text-center">
-					<button type="submit" className="btn btn-primary">
-						Create Flash Cards
+				<div className="col-md-12 text-center mb-3">
+					<button type="submit" className="btn btn-primary m-3">
+						Submit Card
 					</button>
+					<Link to="/Dashboard">
+						<button className="btn btn-primary m-3">
+							Back to Dashboard
+						</button>
+					</Link>
 				</div>
 			</form>
 		</div>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import {
 	BrowserRouter as Router,
@@ -16,6 +16,10 @@ import NavBar from "./components/NavBar";
 import Create from "./components/Create";
 import CreateCards from "./components/CreateCards";
 import { PrivateRouter } from "./router/privateRouter";
+import Profile from "./components/Profile";
+import EditPage from "./components/EditPage";
+import Study from "./components/Study";
+import View from "./components/View";
 
 function App() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -106,6 +110,16 @@ function App() {
 										path="/create"
 										element={<Create />}
 									/>
+									<Route
+										path="/profile"
+										element={<Profile />}
+									/>
+									<Route
+										path="/profile/edit/:id"
+										element={<EditPage />}
+									/>
+									<Route path="/study/:id" element={<Study />} />
+									<Route path="/view/:id" element={<View />} />
 								</>
 							)}
 						</Routes>

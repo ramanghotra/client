@@ -46,9 +46,9 @@ const Register = ({ setAuth }) => {
 						body: JSON.stringify(body),
 					}
 				);
-				
+
 				const parseRes = await response.json();
-				
+
 				// only set token if login is successful
 				if (parseRes.token) {
 					localStorage.setItem("token", parseRes.token);
@@ -57,7 +57,8 @@ const Register = ({ setAuth }) => {
 					setAuth(false);
 					return alert(parseRes);
 				}
-
+				// redirect to login page
+				window.location = "/dashboard";
 			}
 		} catch (err) {
 			console.error(err.message + "From Register.js");

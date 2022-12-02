@@ -1,16 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-const Deck = ({ decks }) => {
-	// for each deck, render a card with deck_name and deck_description
-	const [isClick, setClick] = useState(false);
-	const [decksList, setDecks] = useState(decks);
 
+const ProfileDeck = ({ decks }) => {
 	const navigate = useNavigate();
 
+	// for each deck, render a card with deck_name and deck_description
+	const [decksList, setDecks] = useState(decks);
+
+	// update the decks if the user adds or removes from favourites without refreshing the page
 	const updateDecks = (deck_id) => {
 		setDecks((prevDecks) => {
 			return prevDecks.filter((deck) => deck.deck_id !== deck_id);
 		});
+	};
+
+	const onEditButton = async (e, deck_id) => {
+		console.log("Edit Deck");
+		console.log(deck_id);
+
+		// remove deck_id from local storage if it exists already then add the new deck_id
+		if (localStorage.getItem("deck_id")) {
+			localStorage.removeItem("deck_id");
+		}
+		localStorage.setItem("deck_id", deck_id);
+
+		// navigate to edit deck page at profile/edit/:deck_id
+		navigate(`/profile/edit/${deck_id}`);
+	};
+
+	const onDeleteButton = async (e, deck_id) => {
+		try {
+			const body = { deck_id };
+			console.log("Body", body);
+
+			const response = await fetch(
+				"http://localhost:3001/profile/delete/deck",
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						token: localStorage.token,
+					},
+					body: JSON.stringify(body),
+				}
+			);
+
+			const parseRes = await response.json();
+			console.log("ParseRes", parseRes);
+		} catch (err) {
+			console.error(err.message + "From ProfileDeck.js");
+		}
+
+		updateDecks(deck_id);
 	};
 
 	// post to /favourites route in dashboard
@@ -66,20 +107,6 @@ const Deck = ({ decks }) => {
 		updateDecks();
 	};
 
-	const onViewButtonClick = (e, deck_id) => {
-		e.preventDefault();
-
-		// navigate to view page at /view and send deck_id
-		navigate(`/view/${deck_id}`);
-	};
-
-	const onStudyButtonClick = (e, deck_id) => {
-		e.preventDefault();
-
-		// navigate to study page at /study and send deck_id
-		navigate(`/study/${deck_id}`);
-	};
-
 	return (
 		<div className="row">
 			{decksList.map((deck) => {
@@ -93,22 +120,9 @@ const Deck = ({ decks }) => {
 								<p className="card-text">
 									{deck.deck_description}
 								</p>
-								<button
-									onClick={(e) => {
-										onStudyButtonClick(e, deck.deck_id);
-									}}
-									class="btn btn-primary"
-								>
+								<a href="#" class="btn btn-primary">
 									Study
-								</button>
-								<button
-									class="btn btn-link"
-									onClick={(e) => {
-										onViewButtonClick(e, deck.deck_id);
-									}}
-								>
-									View
-								</button>
+								</a>
 								{deck.favourite ? (
 									<button
 										className="btn btn-link btn-small"
@@ -135,7 +149,6 @@ const Deck = ({ decks }) => {
 										className="btn btn-link btn-small"
 										onClick={(e) => {
 											onClick(e, deck.deck_id);
-											setClick(true);
 										}}
 									>
 										<svg
@@ -150,6 +163,22 @@ const Deck = ({ decks }) => {
 										</svg>
 									</button>
 								)}
+								<button
+									className="btn btn-link"
+									onClick={(e) => {
+										onEditButton(e, deck.deck_id);
+									}}
+								>
+									Edit
+								</button>
+								<button
+									className="btn btn-link"
+									onClick={(e) => {
+										onDeleteButton(e, deck.deck_id);
+									}}
+								>
+									Delete
+								</button>
 							</div>
 						</div>
 					</div>
@@ -159,4 +188,4 @@ const Deck = ({ decks }) => {
 	);
 };
 
-export default Deck;
+export default ProfileDeck;
