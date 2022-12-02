@@ -13,19 +13,21 @@ const Create = ({ setAuth }) => {
 
 	const { deckName, deckDescription, courseInfo } = inputs;
 
-
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
 		try {
 			const body = { deckName, deckDescription, courseInfo };
-			const response = await fetch("http://localhost:3001/create", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					token: localStorage.token,
-				},
-				body: JSON.stringify(body),
-			});
+			const response = await fetch(
+				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/create",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						token: localStorage.token,
+					},
+					body: JSON.stringify(body),
+				}
+			);
 
 			const parseRes = await response.json();
 

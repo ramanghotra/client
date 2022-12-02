@@ -7,10 +7,10 @@ const View = ({ setAuth }) => {
 	const { id } = useParams();
 	// get the deck name and all its cards from the database
 	async function fetchData() {
-		// get the deck name and all its cards from the database at the localhost:3001/decks/:deck_id route
+		// get the deck name and all its cards from the database at the ramandeepghotra-quiz.postgres.database.azure.com:3001/decks/:deck_id route
 		try {
 			const response = await fetch(
-				`http://localhost:3001/study/view/info/${id}`,
+				`http://ramandeepghotra-quiz.postgres.database.azure.com:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -54,8 +54,12 @@ const View = ({ setAuth }) => {
 					))}
 				</tbody>
 			</table>
-            <button className="btn btn-primary"
-            onClick={() => window.location = "/dashboard"}>Back</button>
+			<button
+				className="btn btn-primary"
+				onClick={() => (window.location = "/dashboard")}
+			>
+				Back
+			</button>
 		</div>
 	);
 };

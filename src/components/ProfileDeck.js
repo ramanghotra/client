@@ -34,7 +34,7 @@ const ProfileDeck = ({ decks }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://localhost:3001/profile/delete/deck",
+				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/profile/delete/deck",
 				{
 					method: "DELETE",
 					headers: {
@@ -61,7 +61,7 @@ const ProfileDeck = ({ decks }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://localhost:3001/dashboard/favourites",
+				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -87,7 +87,7 @@ const ProfileDeck = ({ decks }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://localhost:3001/dashboard/favourites",
+				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {

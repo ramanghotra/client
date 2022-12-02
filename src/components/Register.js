@@ -39,7 +39,7 @@ const Register = ({ setAuth }) => {
 			} else {
 				// post request to backend
 				const response = await fetch(
-					"http://localhost:3001/auth/register",
+					"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/auth/register",
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },

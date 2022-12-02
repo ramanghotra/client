@@ -9,8 +9,6 @@ const NavBar = ({ setAuth, text }) => {
 		console.log("logout clicked");
 	};
 
-	// change text and then use a conditional event handler
-
 	return (
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
@@ -75,7 +73,7 @@ const NavBar = ({ setAuth, text }) => {
 								type="submit"
 								onClick={(e) => logout(e)}
 							>
-								{text}
+								Login/Logout
 							</button>
 						</li>
 					</ul>

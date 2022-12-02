@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Study = () => {
 	const [deck, setDeck] = useState([]);
@@ -10,11 +10,15 @@ const Study = () => {
 	const [accuracy, setAccuracy] = useState(0);
 	const [cardIndex, setCardIndex] = useState(0);
 	const [displayText, setDisplayText] = useState("");
+	const [flip, setFlip] = useState(false);
+	const [previous_accuracy, setPreviousAccuracy] = useState(0);
+	const [previous_attempt, setPreviousAttempt] = useState(0);
+	const navigate = useNavigate();
 
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://localhost:3001/study/view/info/${id}`,
+				`http://ramandeepghotra-quiz.postgres.database.azure.com:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -22,12 +26,15 @@ const Study = () => {
 			);
 
 			const parseRes = await response.json();
-			console.log("im gay");
 			console.log(parseRes);
 			setDeck(parseRes.deck);
 			setCards(parseRes.cards);
+
 			setNumberOfCards(parseRes.cards.length);
-			setInitialValues();
+			setDisplayText(parseRes.cards[0].question);
+			setPreviousAccuracy(parseRes.deck.accuracy);
+			setPreviousAttempt(parseRes.deck.attempts);
+			console.log(parseRes);
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -37,39 +44,149 @@ const Study = () => {
 		fetchData();
 	}, []);
 
-	const setInitialValues = () => {
-		setNumberOfCards(cardsList.length);
-		setNumberOfCorrect(0);
-		setAccuracy(0);
-		setCardIndex(1);
-		setDisplayText("");
+	const handleNext = (e) => {
+		e.preventDefault();
+		// check to see if we are at the end of the deck
+		if (cardIndex === numberOfCards - 1) {
+			setDisplayText("You have reached the end of the deck.");
+			// disable the next button
+			document.getElementById("next").disabled = true;
+			document.getElementById("answer").disabled = true;
+			document.getElementById("previous").disabled = true;
+			// set the accuracy to 2 decimal places
+
+			submitFinal();
+			// navigate("/end");
+		} else {
+			setCardIndex(cardIndex + 1);
+			setDisplayText(cardsList[cardIndex + 1].question);
+		}
 	};
 
-	// const handleNext = () => {
-    //     try {
-    //         setCardIndex(cardIndex + 1);
-    //         setDisplayText(cardsList[cardIndex].question);
-    //     } catch (err) {
-    //         console.error(err.message);
-    //         setDisplayText("You have reached the end of the deck.");
-    //         navigator.vibrate(1000);
-    //     }
+	const submitFinal = async () => {
+		setAccuracy(((numberOfCorrect / numberOfCards) * 100).toFixed(2));
+		console.log("aman is dad12");
+		let send_attempts = previous_attempt + 1;
+		try {
+			const body = { accuracy, send_attempts };
+			const response = await fetch(
+				`http://ramandeepghotra-quiz.postgres.database.azure.com:3001/study/update/${id}`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						token: localStorage.token,
+					},
+					body: JSON.stringify(body),
+				}
+			);
+			const parseRes = await response.json();
+			console.log(parseRes);
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
 
-		
-	// };
+	const onFlip = (e) => {
+		e.preventDefault();
+		setFlip(!flip);
+		if (!flip) {
+			setDisplayText(cardsList[cardIndex].answer);
+			// display buttons to mark correct or incorrect
+			document.getElementById("collapseExample").style.display = "block";
+		} else {
+			document.getElementById("collapseExample").style.display = "none";
+			setDisplayText(cardsList[cardIndex].question);
+		}
+	};
+
+	const onCorrect = (e) => {
+		e.preventDefault();
+	};
+
+	const onIncorrect = (e) => {
+		e.preventDefault();
+	};
 
 	return (
 		<div>
-			<h2>{deck.deck_name}</h2>
-			<h3>Number of Cards: {cardsList.length}</h3>
-			<h3>Number of Correct: {numberOfCorrect}</h3>
-			<h3>Accuracy: {accuracy}</h3>
-			<h3>{numberOfCards} Cards Remaining</h3>
-			{/* <button className="btn btn-primary" onClick={handleNext}> */}
-				Next
-			{/* </button> */}
-			{/* display first question */}
-			<h3>{displayText}</h3>
+			<div className="center text-center">
+				<div className="card ">
+					<div className="card-body">
+						<h5 className="card-title">
+							{deck.deck_name} - Question {cardIndex + 1}
+						</h5>
+						<p className="card-text">{displayText}</p>
+						<button
+							id="previous"
+							className="btn btn-link"
+							onClick={(e) => {
+								handleNext(e);
+							}}
+							type="button"
+						>
+							Previous
+						</button>
+						<button
+							id="answer"
+							className="btn btn-link"
+							type="button"
+							onClick={(e) => {
+								onFlip(e);
+							}}
+						>
+							Show Answer
+						</button>
+						<button
+							id="next"
+							className="btn btn-link"
+							onClick={(e) => {
+								handleNext(e);
+							}}
+							type="button"
+						>
+							Next
+						</button>
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<button
+									className="btn btn-success"
+									onClick={(e) => {
+										onCorrect(e);
+										onFlip(e);
+										setNumberOfCorrect(numberOfCorrect + 1);
+										handleNext(e);
+									}}
+								>
+									Correct
+								</button>
+								<button
+									className="btn btn-danger"
+									onClick={(e) => {
+										onIncorrect(e);
+										onFlip(e);
+										handleNext(e);
+									}}
+								>
+									Incorrect
+								</button>
+							</div>
+						</div>
+					</div>
+					<div className="card-footer">
+						<h5>Number of Cards: {cardsList.length}</h5>
+						<h5>Number of Correct: {numberOfCorrect}</h5>
+					</div>
+				</div>
+			</div>
+			<div>
+				<h1 className="text-center">End of Deck</h1>
+				{/* Display Results */}
+				<h2>Results for Current Attempt #{previous_attempt + 1}</h2>
+				<h3>Accuracy: {accuracy}% </h3>
+				<h3>Previous Attempts: {previous_attempt} </h3>
+				<h3>Previous Accuracy: {previous_accuracy}% </h3>
+			</div>
 		</div>
 	);
 };

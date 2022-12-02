@@ -10,14 +10,18 @@ const Dashboard = ({ setAuth }) => {
 	console.log("Dashboard.js");
 	async function fetchData() {
 		try {
-			const response = await fetch("http://localhost:3001/dashboard/", {
-				method: "GET",
-				headers: { token: localStorage.token },
-			});
+			const response = await fetch(
+				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/dashboard/",
+				{
+					method: "GET",
+					headers: { token: localStorage.token },
+				}
+			);
 			const parseRes = await response.json();
 			setDecks(parseRes.decks);
 			setName(parseRes.user);
 			console.log("ParseRes", parseRes);
+			console.log(localStorage.token);
 		} catch (err) {
 			if (err.response.status === 401) {
 				localStorage.removeItem("token");
