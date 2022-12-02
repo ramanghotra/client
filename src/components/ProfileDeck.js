@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const ProfileDeck = ({ decks }) => {
 	const navigate = useNavigate();
-
-	// for each deck, render a card with deck_name and deck_description
 	const [decksList, setDecks] = useState(decks);
 
 	// update the decks if the user adds or removes from favourites without refreshing the page
@@ -14,27 +12,23 @@ const ProfileDeck = ({ decks }) => {
 		});
 	};
 
+	// edit button click handler
 	const onEditButton = async (e, deck_id) => {
-		console.log("Edit Deck");
-		console.log(deck_id);
-
 		// remove deck_id from local storage if it exists already then add the new deck_id
 		if (localStorage.getItem("deck_id")) {
 			localStorage.removeItem("deck_id");
 		}
 		localStorage.setItem("deck_id", deck_id);
-
 		// navigate to edit deck page at profile/edit/:deck_id
 		navigate(`/profile/edit/${deck_id}`);
 	};
 
+	// delete button click handler
 	const onDeleteButton = async (e, deck_id) => {
 		try {
 			const body = { deck_id };
-			console.log("Body", body);
-
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/delete/deck",
+				"http://localhost:3001/profile/delete/deck",
 				{
 					method: "DELETE",
 					headers: {
@@ -44,13 +38,10 @@ const ProfileDeck = ({ decks }) => {
 					body: JSON.stringify(body),
 				}
 			);
-
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From ProfileDeck.js");
 		}
-
 		updateDecks(deck_id);
 	};
 
@@ -58,10 +49,8 @@ const ProfileDeck = ({ decks }) => {
 	const onClick = async (e, deck_id) => {
 		try {
 			const body = { deck_id: deck_id };
-			console.log("Body", body);
-
 			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -71,23 +60,19 @@ const ProfileDeck = ({ decks }) => {
 					body: JSON.stringify(body),
 				}
 			);
-
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From Deck.js");
 		}
-
 		updateDecks();
 	};
 
+	// delete from /favourites route in dashboard
 	const removeFavourite = async (e, deck_id) => {
 		try {
 			const body = { deck_id: deck_id };
-			console.log("Body", body);
-
 			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {
@@ -97,9 +82,7 @@ const ProfileDeck = ({ decks }) => {
 					body: JSON.stringify(body),
 				}
 			);
-
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From Deck.js");
 		}

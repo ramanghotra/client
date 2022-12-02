@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 const EditPage = ({ setAuth }) => {
 	const { id } = useParams();
-	// for each deck, render a card with deck_name and deck_description
 	const [deck, setDeck] = useState([]);
 	const [cardsList, setCards] = useState([]);
 	const [newCard, setNewCard] = useState({
@@ -13,7 +12,7 @@ const EditPage = ({ setAuth }) => {
 		correct_count: "",
 		incorrect_count: "",
 	});
-	const title = false;
+
 	// destructure new card into flashcard_id, deck_id, question, answer, correct_count, incorrect_count
 	const {
 		flashcard_id,
@@ -27,19 +26,19 @@ const EditPage = ({ setAuth }) => {
 	const [updatedAnswer, setUpdatedAnswer] = useState(answer);
 	const [updatedQuestion, setUpdatedQuestion] = useState(question);
 
-	// get the deck name and all its cards from the database
+	/**
+	 * Get the deck and cards from the database
+	 */
 	async function fetchData() {
-		// get the deck name and all its cards from the database at the 4.204.242.184:3001/decks/:deck_id route
+		// get the deck name and all its cards from the database at the localhost:3001/decks/:deck_id route
 		try {
 			const response = await fetch(
-				`http://4.204.242.184:3001/profile/edit/${id}`,
+				`http://localhost:3001/profile/edit/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
 				}
 			);
-			console.log("Response", response);
-
 			const parseRes = await response.json();
 			console.log("ParseRes", parseRes);
 			setDeck(parseRes.deck);
@@ -66,7 +65,7 @@ const EditPage = ({ setAuth }) => {
 			// only send flashcard_id, question, answer to the backend
 			const body = { flashcard_id, updatedQuestion, updatedAnswer };
 			const response = await fetch(
-				`http://4.204.242.184:3001/profile/edit/card`,
+				`http://localhost:3001/profile/edit/card`,
 				{
 					method: "PUT",
 					headers: {
@@ -90,7 +89,7 @@ const EditPage = ({ setAuth }) => {
 		try {
 			const body = { card_id };
 			const response = await fetch(
-				`http://4.204.242.184:3001/profile/delete/card`,
+				`http://localhost:3001/profile/delete/card`,
 				{
 					method: "DELETE",
 					headers: {

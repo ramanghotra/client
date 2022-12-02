@@ -4,12 +4,14 @@ import Deck from "./Deck";
 const Search = () => {
 	const searchTerm = useParams();
 	const [decks, setDecks] = useState([]);
-	console.log("SearchTerm", searchTerm);
+
+	/**
+	 * Fetch the decks from the server
+	 */
 	async function fetchData() {
-		console.log("fetchData12121212");
 		try {
 			const response = await fetch(
-				`http://4.204.242.184:3001/search/decks/${searchTerm.id}`,
+				`http://localhost:3001/search/decks/${searchTerm.id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

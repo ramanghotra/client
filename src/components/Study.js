@@ -14,12 +14,14 @@ const Study = () => {
 	const [previous_accuracy, setPreviousAccuracy] = useState(0);
 	const [previous_attempt, setPreviousAttempt] = useState(0);
 	const [incorrectCards, setIncorrectCards] = useState([]);
-	const navigate = useNavigate();
 
+	/**
+	 * Get the deck and cards from the database
+	 */
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://4.204.242.184:3001/study/view/info/${id}`,
+				`http://localhost:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -27,7 +29,6 @@ const Study = () => {
 			);
 
 			const parseRes = await response.json();
-			console.log(parseRes);
 			setDeck(parseRes.deck);
 			setCards(parseRes.cards);
 
@@ -35,8 +36,6 @@ const Study = () => {
 			setDisplayText(parseRes.cards[0].question);
 			setPreviousAccuracy(parseRes.accuracy.accuracy);
 			setPreviousAttempt(parseRes.accuracy.attempts);
-			console.log("BRO PLEASE");
-			console.log(parseRes);
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -44,28 +43,50 @@ const Study = () => {
 
 	useEffect(() => {
 		fetchData();
-		console.log("123");
 	}, []);
 
+	/**
+	 * Show the next card
+	 * @param {*} e
+	 */
 	const handleNext = (e) => {
 		e.preventDefault();
 		// check to see if we are at the end of the deck
 		if (cardIndex === numberOfCards - 1) {
 			setDisplayText("You have reached the end of the deck.");
-			// disable the next button
+			// disable the buttons
 			document.getElementById("next").disabled = true;
 			document.getElementById("answer").disabled = true;
 			document.getElementById("previous").disabled = true;
-			// set the accuracy to 2 decimal places
-
 			submitFinal();
-			// navigate("/end");
 		} else {
 			setCardIndex(cardIndex + 1);
 			setDisplayText(cardsList[cardIndex + 1].question);
 		}
 	};
 
+	/**
+	 * Show the previous card
+	 * @param {*} e
+	 */
+	const handlePrevious = (e) => {
+		e.preventDefault();
+		// check to see if we are at the beginning of the deck
+		if (cardIndex === 0) {
+			setDisplayText("You have reached the beginning of the deck.");
+			// disable the buttons
+			document.getElementById("next").disabled = true;
+			document.getElementById("answer").disabled = true;
+			document.getElementById("previous").disabled = true;
+		} else {
+			setCardIndex(cardIndex - 1);
+			setDisplayText(cardsList[cardIndex - 1].question);
+		}
+	};
+
+	/**
+	 * Last card ansswered, submit the results
+	 */
 	const submitFinal = async () => {
 		let new_attempts = previous_attempt + 1;
 		let send_accuracy = (
@@ -73,12 +94,11 @@ const Study = () => {
 			100
 		).toFixed(2);
 		setAccuracy(send_accuracy);
-		console.log(accuracy);
 
 		try {
 			const body = { send_accuracy, new_attempts };
 			const response = await fetch(
-				`http://4.204.242.184:3001/study/update/${id}`,
+				`http://localhost:3001/study/update/${id}`,
 				{
 					method: "PUT",
 					headers: {
@@ -89,12 +109,17 @@ const Study = () => {
 				}
 			);
 			const parseRes = await response.json();
-			console.log(parseRes);
 		} catch (err) {
 			console.error(err.message);
 		}
+
+		document.getElementById("results").style.display = "block";
 	};
 
+	/**
+	 * Flip the card
+	 * @param {*} e
+	 */
 	const onFlip = (e) => {
 		e.preventDefault();
 		setFlip(!flip);
@@ -108,22 +133,26 @@ const Study = () => {
 		}
 	};
 
+	/**
+	 * On correct answer, show the next card
+	 * @param {*} e
+	 */
 	const onCorrect = (e) => {
 		setNumberOfCorrect(numberOfCorrect + 1);
 		e.preventDefault();
 	};
 
+	/**
+	 * On incorrect answer, show the next card and add to incorrect list
+	 * @param {*} e
+	 */
 	const onIncorrect = (e) => {
-		console.log("aman is daddddy");
 		e.preventDefault();
-		console.log("im gay");
 		// add the card object to the incorrectCards array
 		let incorrectCard = cardsList[cardIndex];
 		let { question, answer } = incorrectCard;
 		let card = { question, answer };
 		setIncorrectCards((incorrectCards) => [...incorrectCards, card]);
-
-		console.log(incorrectCards);
 	};
 
 	return (
@@ -139,7 +168,7 @@ const Study = () => {
 							id="previous"
 							className="btn btn-link"
 							onClick={(e) => {
-								handleNext(e);
+								handlePrevious(e);
 							}}
 							type="button"
 						>
@@ -197,25 +226,30 @@ const Study = () => {
 					</div>
 				</div>
 			</div>
-			<div>
-				<h1 className="text-center">End of Deck</h1>
-				{/* Display Results */}
-				<h2>Results for Current Attempt #{previous_attempt + 1}</h2>
-				<h3>Accuracy: {accuracy} % </h3>
-				<h3>Previous Attempts: {previous_attempt} </h3>
-				<h3>Previous Accuracy: {previous_accuracy}% </h3>
-				{/* display all cards in incorrectcards array */}
-				<h3>Incorrect Cards</h3>
-				<ul>
-					{incorrectCards.map((card, index) => {
-						return (
-							<li key={index}>
-								<h4>Question: {card.question}</h4>
-								<h4>Answer: {card.answer}</h4>
-							</li>
-						);
-					})}
-				</ul>
+			<div id="results" class="collapse text-center mt-3">
+				<h4>Results for Current Attempt #{previous_attempt + 1}</h4>
+				<h5>Accuracy: {accuracy} % </h5>
+				<h5>Previous Attempts: {previous_attempt} </h5>
+				<h5>Previous Accuracy: {previous_accuracy}% </h5>
+				<h5 className="text-center">Incorrect Cards</h5>
+				<table className="table mt-3">
+					<thead>
+						<tr>
+							<th>Question</th>
+							<th>Answer</th>
+						</tr>
+					</thead>
+					<tbody>
+						{incorrectCards.map((card, index) => {
+							return (
+								<tr key={index}>
+									<td>{card.question}</td>
+									<td>{card.answer}</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);

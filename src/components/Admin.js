@@ -1,3 +1,7 @@
+/**
+ * Admin Component to display the admin
+ */
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,23 +12,33 @@ const Admin = ({ setAuth }) => {
 	const [message, setMessage] = useState("");
 	const navigate = useNavigate();
 
+	/**
+	 * Update the decks list when a deck is deleted
+	 * @param {*} deck_id
+	 */
 	const updateDecks = (deck_id) => {
 		setDecks((prevDecks) => {
 			return prevDecks.filter((deck) => deck.deck_id !== deck_id);
 		});
 	};
 
+	/**
+	 * Update the users list when a user is deleted
+	 * @param {*} user_id
+	 */
 	const updateUsers = (user_id) => {
 		setUsers((prevUsers) => {
 			return prevUsers.filter((user) => user.user_id !== user_id);
 		});
 	};
 
+	/**
+	 * Fetch the decks and users from the server
+	 */
 	async function fetchData() {
-		console.log("fetchData");
 		try {
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/admin",
+				"http://localhost:3001/profile/admin",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -34,8 +48,6 @@ const Admin = ({ setAuth }) => {
 			setDecks(parseRes.decks);
 			setName(parseRes.user);
 			setUsers(parseRes.users);
-
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			if (err.response.status === 401) {
 				localStorage.removeItem("token");
@@ -45,13 +57,17 @@ const Admin = ({ setAuth }) => {
 		}
 	}
 
+	/**
+	 * Delete a deck from the server
+	 * @param {*} e
+	 * @param {*} deck_id
+	 */
 	const onDeleteButton = async (e, deck_id) => {
 		try {
 			const body = { deck_id };
-			console.log("Body", body);
 
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/admin/delete/deck",
+				"http://localhost:3001/profile/admin/delete/deck",
 				{
 					method: "DELETE",
 					headers: {
@@ -63,7 +79,6 @@ const Admin = ({ setAuth }) => {
 			);
 
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From ProfileDeck.js");
 		}
@@ -71,13 +86,16 @@ const Admin = ({ setAuth }) => {
 		updateDecks(deck_id);
 	};
 
+	/**
+	 * Delete a user from the server
+	 * @param {*} e
+	 * @param {*} user_id
+	 */
 	const onDeleteUser = async (e, user_id) => {
 		try {
 			const body = { user_id };
-			console.log("Body", body);
-
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/delete/user",
+				"http://localhost:3001/profile/delete/user",
 				{
 					method: "DELETE",
 					headers: {
@@ -89,20 +107,20 @@ const Admin = ({ setAuth }) => {
 			);
 
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
-
 			updateUsers(user_id);
 		} catch (err) {
 			console.error(err.message + "From ProfileDeck.js");
 		}
 	};
 
+	/**
+	 * Post a message to the server so it can be displayed on the home page
+	 */
 	const onMessageButton = async () => {
-		// send post request to banner table
 		try {
 			const body = { message };
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/admin/banner",
+				"http://localhost:3001/profile/admin/banner",
 				{
 					method: "POST",
 					headers: {
@@ -115,7 +133,6 @@ const Admin = ({ setAuth }) => {
 		} catch (err) {
 			console.error(err.message + "From ProfileDeck.js");
 		}
-
 		// redirect to home page
 		navigate("/dashboard");
 	};

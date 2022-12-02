@@ -1,5 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
-import NavBar from "./NavBar";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Deck from "./Deck";
@@ -8,23 +7,20 @@ const Dashboard = ({ setAuth }) => {
 	const [name, setName] = useState("");
 	const [decks, setDecks] = useState([]);
 	const [message, setMessage] = useState("");
-	console.log("Dashboard.js");
+
+	/**
+	 * Fetch the decks from the server
+	 */
 	async function fetchData() {
 		try {
-			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/",
-				{
-					method: "GET",
-					headers: { token: localStorage.token },
-				}
-			);
+			const response = await fetch("http://localhost:3001/dashboard/", {
+				method: "GET",
+				headers: { token: localStorage.token },
+			});
 			const parseRes = await response.json();
 			setMessage(parseRes.message.message);
 			setDecks(parseRes.decks);
 			setName(parseRes.user);
-
-			console.log("Message", message);
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			if (err.response.status === 401) {
 				localStorage.removeItem("token");

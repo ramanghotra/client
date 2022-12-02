@@ -1,5 +1,9 @@
-import React, { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+/**
+ * Create a deck of flash cards
+ */
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Create = ({ setAuth }) => {
 	const navigate = useNavigate();
@@ -11,13 +15,18 @@ const Create = ({ setAuth }) => {
 		courseInfo: "",
 	});
 
+	// Destucture the inputs object
 	const { deckName, deckDescription, courseInfo } = inputs;
 
+	/**
+	 * Submit the form to create a new deck
+	 * @param {*} e
+	 */
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
 		try {
 			const body = { deckName, deckDescription, courseInfo };
-			const response = await fetch("http://4.204.242.184:3001/create", {
+			const response = await fetch("http://localhost:3001/create", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -27,12 +36,7 @@ const Create = ({ setAuth }) => {
 			});
 
 			const parseRes = await response.json();
-
-			console.log(parseRes);
-
 			localStorage.setItem("deck_id", parseRes.deck_id);
-
-			// redirect to create cards page and pass deck id as a prop
 			navigate("/create/cards", { state: { deck_id: parseRes.deck_id } });
 		} catch (err) {
 			console.error(err.message + "From Create.js");
@@ -40,6 +44,10 @@ const Create = ({ setAuth }) => {
 		}
 	};
 
+	/**
+	 * Set state for the inputs
+	 * @param {*} e 
+	 */
 	const onChange = (e) => {
 		setInputs({ ...inputs, [e.target.id]: e.target.value });
 	};

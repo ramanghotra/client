@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Deck = ({ decks }) => {
-	// for each deck, render a card with deck_name and deck_description
 	const [isClick, setClick] = useState(false);
 	const [decksList, setDecks] = useState(decks);
 
@@ -13,14 +12,16 @@ const Deck = ({ decks }) => {
 		});
 	};
 
-	// post to /favourites route in dashboard
+	/**
+	 * onClick to add to favorites
+	 * @param {*} e
+	 * @param {*} deck_id
+	 */
 	const onClick = async (e, deck_id) => {
 		try {
 			const body = { deck_id: deck_id };
-			console.log("Body", body);
-
 			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -32,21 +33,23 @@ const Deck = ({ decks }) => {
 			);
 
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From Deck.js");
 		}
-
 		updateDecks();
+		window.reload();
 	};
 
+	/**
+	 * Click to remove from favorites
+	 * @param {*} e
+	 * @param {*} deck_id
+	 */
 	const removeFavourite = async (e, deck_id) => {
 		try {
 			const body = { deck_id: deck_id };
-			console.log("Body", body);
-
 			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {
@@ -58,25 +61,30 @@ const Deck = ({ decks }) => {
 			);
 
 			const parseRes = await response.json();
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From Deck.js");
 		}
-
 		updateDecks();
+		window.reload();
 	};
 
+	/**
+	 * View the cards in the deck
+	 * @param {*} e 
+	 * @param {*} deck_id 
+	 */
 	const onViewButtonClick = (e, deck_id) => {
 		e.preventDefault();
-
-		// navigate to view page at /view and send deck_id
 		navigate(`/view/${deck_id}`);
 	};
 
+	/**
+	 * Begin the studying session
+	 * @param {*} e 
+	 * @param {*} deck_id 
+	 */
 	const onStudyButtonClick = (e, deck_id) => {
 		e.preventDefault();
-
-		// navigate to study page at /study and send deck_id
 		navigate(`/study/${deck_id}`);
 	};
 

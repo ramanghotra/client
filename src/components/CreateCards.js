@@ -1,6 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 const CreateCards = ({ setAuth }) => {
 	const [name, setName] = useState("");
 	const [inputs, setInputs] = useState({
@@ -8,41 +13,37 @@ const CreateCards = ({ setAuth }) => {
 		answer: "",
 	});
 	const [successMessage, setSuccessMessage] = useState("");
-
 	const state = useLocation().state;
 	const deck_id = state.deck_id;
-
-	console.log("State", state.deck_id);
-
 	const { question, answer } = inputs;
 
+	/**
+	 * Clear the form after a card is created
+	 */
 	const clearForm = () => {
-		console.log("Clearing form");
 		setInputs({
 			question: "",
 			answer: "",
 		});
 	};
 
+	/**
+	 * Submit the form to create a new card
+	 * @param {*} e
+	 */
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
 		try {
 			const body = { question, answer, deck_id };
-			console.log("Body", body);
 
-			// post to create cards route
-
-			const response = await fetch(
-				"http://4.204.242.184:3001/create/cards",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						token: localStorage.token,
-					},
-					body: JSON.stringify(body),
-				}
-			);
+			const response = await fetch("http://localhost:3001/create/cards", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					token: localStorage.token,
+				},
+				body: JSON.stringify(body),
+			});
 
 			const parseRes = await response.json();
 			if (parseRes) {
@@ -52,16 +53,16 @@ const CreateCards = ({ setAuth }) => {
 			}
 
 			clearForm();
-
-			// set success message on successMessage label
-
-			console.log("ParseRes", parseRes);
 		} catch (err) {
 			console.error(err.message + "From CreateCards.js");
 			setAuth(false);
 		}
 	};
 
+	/**
+	 * Set state for the inputs
+	 * @param {*} e 
+	 */
 	const onChange = (e) => {
 		setInputs({ ...inputs, [e.target.id]: e.target.value });
 	};

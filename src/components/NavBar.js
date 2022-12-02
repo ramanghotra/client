@@ -1,7 +1,5 @@
 // import useState
 import React, { useState } from "react";
-import { Link, Route, useNavigate } from "react-router-dom";
-import Search from "./Search";
 const NavBar = ({ setAuth, text }) => {
 	const [search, setSearch] = useState("");
 	const logout = (e) => {
@@ -12,6 +10,10 @@ const NavBar = ({ setAuth, text }) => {
 		console.log("logout clicked");
 	};
 
+	/**
+	 * fetch the search results from the server
+	 * @param {*} e 
+	 */
 	const fetchData = async (e) => {
 		e.preventDefault();
 		window.location = `/search/decks/${search}`;

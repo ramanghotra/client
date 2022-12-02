@@ -12,17 +12,24 @@ const Register = ({ setAuth }) => {
 
 	const { firstname, lastname, email, password, confirmPassword } = inputs;
 
+	/**
+	 * Set state for the inputs
+	 * @param {*} e 
+	 */
 	const onChange = (e) => {
 		setInputs({ ...inputs, [e.target.id]: e.target.value });
 	};
 
+	/**
+	 * Submit the form to register
+	 * @param {*} e 
+	 * @returns 
+	 */
 	const onSubmitForm = async (e) => {
-		console.log("onSubmitForm");
 		e.preventDefault();
 
 		try {
 			const body = { firstname, lastname, email, password };
-			console.log("body: " + body);
 
 			// if passwords dont match, return error
 			if (password !== confirmPassword) {
@@ -34,13 +41,11 @@ const Register = ({ setAuth }) => {
 				document.getElementById("password").value = "";
 				document.getElementById("confirmPassword").value = "";
 
-				// ensure password is at least 6 characters
-
 				return alert("Passwords do not match");
 			} else {
 				// post request to backend
 				const response = await fetch(
-					"http://4.204.242.184:3001/auth/register",
+					"http://localhost:3001/auth/register",
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
