@@ -18,7 +18,7 @@ const Login = ({ setAuth }) => {
 		try {
 			const body = { email, password };
 			const response = await fetch(
-				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/auth/login",
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/auth/login",
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },

@@ -7,10 +7,10 @@ const View = ({ setAuth }) => {
 	const { id } = useParams();
 	// get the deck name and all its cards from the database
 	async function fetchData() {
-		// get the deck name and all its cards from the database at the ramandeepghotra-quiz.postgres.database.azure.com:3001/decks/:deck_id route
+		// get the deck name and all its cards from the database at the rghotra-quiz.canadacentral.cloudapp.azure.com:3001/decks/:deck_id route
 		try {
 			const response = await fetch(
-				`http://ramandeepghotra-quiz.postgres.database.azure.com:3001/study/view/info/${id}`,
+				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

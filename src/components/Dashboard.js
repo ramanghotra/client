@@ -11,7 +11,7 @@ const Dashboard = ({ setAuth }) => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/dashboard/",
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/dashboard/",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

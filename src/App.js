@@ -36,7 +36,7 @@ function App() {
 		console.log("check auth");
 		try {
 			const response = await fetch(
-				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/auth/verify",
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/auth/verify",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

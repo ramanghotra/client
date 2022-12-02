@@ -18,7 +18,7 @@ const Study = () => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://ramandeepghotra-quiz.postgres.database.azure.com:3001/study/view/info/${id}`,
+				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -70,7 +70,7 @@ const Study = () => {
 		try {
 			const body = { accuracy, send_attempts };
 			const response = await fetch(
-				`http://ramandeepghotra-quiz.postgres.database.azure.com:3001/study/update/${id}`,
+				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/study/update/${id}`,
 				{
 					method: "PUT",
 					headers: {

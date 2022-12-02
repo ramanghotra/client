@@ -18,7 +18,7 @@ const Create = ({ setAuth }) => {
 		try {
 			const body = { deckName, deckDescription, courseInfo };
 			const response = await fetch(
-				"http://ramandeepghotra-quiz.postgres.database.azure.com:3001/create",
+				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/create",
 				{
 					method: "POST",
 					headers: {
