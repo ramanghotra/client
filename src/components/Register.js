@@ -22,6 +22,7 @@ const Register = ({ setAuth }) => {
 
 		try {
 			const body = { firstname, lastname, email, password };
+			console.log("body: " + body);
 
 			// if passwords dont match, return error
 			if (password !== confirmPassword) {
