@@ -5,6 +5,7 @@ const Admin = ({ setAuth }) => {
 	const [name, setName] = useState("");
 	const [decks, setDecks] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [message, setMessage] = useState("");
 	const navigate = useNavigate();
 
 	const updateDecks = (deck_id) => {
@@ -96,15 +97,62 @@ const Admin = ({ setAuth }) => {
 		}
 	};
 
+	const onMessageButton = async () => {
+		// send post request to banner table
+		try {
+			const body = { message };
+			const response = await fetch(
+				"http://localhost:3001/profile/admin/banner",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						token: localStorage.token,
+					},
+					body: JSON.stringify(body),
+				}
+			);
+		} catch (err) {
+			console.error(err.message + "From ProfileDeck.js");
+		}
+
+        // redirect to home page
+        navigate("/dashboard");
+	};
+
 	useEffect(() => {
 		fetchData();
 	}, []);
 
 	return (
-		<div>
-			<div>
-				<h1>Admin Console</h1>
+		<div className="mt-3">
+			<div className="mt-3">
+				<h1 className="text-center">Admin Console</h1>
 			</div>
+
+			{/* Create a small form that intakes a message to be displayed  */}
+			<div>
+				<h2>Message of the Day</h2>
+				<form className="form">
+					<div className="form-group">
+						<input
+							type="text"
+							placeholder="Update Message"
+							onChange={(e) => setMessage(e.target.value)}
+						/>
+						<button
+							className="btn btn-warning"
+							onClick={(e) => {
+								e.preventDefault();
+								onMessageButton();
+							}}
+						>
+							Submit
+						</button>
+					</div>
+				</form>
+			</div>
+
 			<div className="col-xs-6">
 				<h2 className="text-center">Decks</h2>
 				<table className="table text-center table-hover">

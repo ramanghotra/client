@@ -20,6 +20,7 @@ import Profile from "./components/Profile";
 import EditPage from "./components/EditPage";
 import Study from "./components/Study";
 import View from "./components/View";
+import Search from "./components/Search";
 
 function App() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -125,6 +126,10 @@ function App() {
 									<Route
 										path="/view/:id"
 										element={<View />}
+									/>
+									<Route
+										path="/search/decks/:id"
+										element={<Search />}
 									/>
 								</>
 							)}

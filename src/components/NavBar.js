@@ -1,12 +1,20 @@
 // import useState
 import React, { useState } from "react";
+import { Link, Route, useNavigate } from "react-router-dom";
+import Search from "./Search";
 const NavBar = ({ setAuth, text }) => {
+	const [search, setSearch] = useState("");
 	const logout = (e) => {
 		e.preventDefault();
 		localStorage.removeItem("token");
 
 		setAuth(false);
 		console.log("logout clicked");
+	};
+
+	const fetchData = async (e) => {
+		e.preventDefault();
+		window.location = `/search/decks/${search}`;
 	};
 
 	return (
@@ -74,8 +82,14 @@ const NavBar = ({ setAuth, text }) => {
 							type="search"
 							placeholder="Search"
 							aria-label="Search"
+							value={search}
+							onChange={(e) => setSearch(e.target.value)}
 						/>
-						<button class="btn btn-outline-success" type="submit">
+						<button
+							class="btn btn-outline-success"
+							type="button"
+							onClick={(e) => fetchData(e)}
+						>
 							Search
 						</button>
 					</form>

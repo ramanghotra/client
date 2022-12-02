@@ -7,6 +7,7 @@ const Dashboard = ({ setAuth }) => {
 	const navigate = useNavigate();
 	const [name, setName] = useState("");
 	const [decks, setDecks] = useState([]);
+	const [message, setMessage] = useState("");
 	console.log("Dashboard.js");
 	async function fetchData() {
 		try {
@@ -15,10 +16,12 @@ const Dashboard = ({ setAuth }) => {
 				headers: { token: localStorage.token },
 			});
 			const parseRes = await response.json();
+			setMessage(parseRes.message.message);
 			setDecks(parseRes.decks);
 			setName(parseRes.user);
+
+			console.log("Message", message);
 			console.log("ParseRes", parseRes);
-			console.log(localStorage.token);
 		} catch (err) {
 			if (err.response.status === 401) {
 				localStorage.removeItem("token");
@@ -37,6 +40,7 @@ const Dashboard = ({ setAuth }) => {
 			<div>
 				<h1 className="text-center">Dashboard</h1>
 				<h2>Hello, {name.user_firstname}</h2>
+				<h5>Todays Message from the Flash Buddy team: {message}</h5>
 			</div>
 			<div>
 				{decks.length > 0 ? (
