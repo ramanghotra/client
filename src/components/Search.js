@@ -9,7 +9,7 @@ const Search = () => {
 		console.log("fetchData12121212");
 		try {
 			const response = await fetch(
-				`http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/search/decks/${searchTerm.id}`,
+				`http://4.204.242.184:3001/search/decks/${searchTerm.id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

@@ -37,7 +37,7 @@ function App() {
 		console.log("check auth");
 		try {
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/auth/verify",
+				"http://4.204.242.184:3001/auth/verify",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

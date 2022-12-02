@@ -33,7 +33,7 @@ const CreateCards = ({ setAuth }) => {
 			// post to create cards route
 
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/create/cards",
+				"http://4.204.242.184:3001/create/cards",
 				{
 					method: "POST",
 					headers: {

@@ -24,7 +24,7 @@ const Admin = ({ setAuth }) => {
 		console.log("fetchData");
 		try {
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/profile/admin",
+				"http://4.204.242.184:3001/profile/admin",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -51,7 +51,7 @@ const Admin = ({ setAuth }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/profile/admin/delete/deck",
+				"http://4.204.242.184:3001/profile/admin/delete/deck",
 				{
 					method: "DELETE",
 					headers: {
@@ -77,7 +77,7 @@ const Admin = ({ setAuth }) => {
 			console.log("Body", body);
 
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/profile/delete/user",
+				"http://4.204.242.184:3001/profile/delete/user",
 				{
 					method: "DELETE",
 					headers: {
@@ -102,7 +102,7 @@ const Admin = ({ setAuth }) => {
 		try {
 			const body = { message };
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/profile/admin/banner",
+				"http://4.204.242.184:3001/profile/admin/banner",
 				{
 					method: "POST",
 					headers: {

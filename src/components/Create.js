@@ -17,17 +17,14 @@ const Create = ({ setAuth }) => {
 		e.preventDefault();
 		try {
 			const body = { deckName, deckDescription, courseInfo };
-			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/create",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						token: localStorage.token,
-					},
-					body: JSON.stringify(body),
-				}
-			);
+			const response = await fetch("http://4.204.242.184:3001/create", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					token: localStorage.token,
+				},
+				body: JSON.stringify(body),
+			});
 
 			const parseRes = await response.json();
 

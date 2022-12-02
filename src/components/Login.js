@@ -18,7 +18,7 @@ const Login = ({ setAuth }) => {
 		try {
 			const body = { email, password };
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/auth/login",
+				"http://4.204.242.184:3001/auth/login",
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },

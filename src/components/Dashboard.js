@@ -12,7 +12,7 @@ const Dashboard = ({ setAuth }) => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/dashboard/",
+				"http://4.204.242.184:3001/dashboard/",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

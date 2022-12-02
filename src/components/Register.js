@@ -40,7 +40,7 @@ const Register = ({ setAuth }) => {
 			} else {
 				// post request to backend
 				const response = await fetch(
-					"http://rghotra-quiz.canadacentral.cloudapp.azure.com:3001/auth/register",
+					"http://4.204.242.184:3001/auth/register",
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
