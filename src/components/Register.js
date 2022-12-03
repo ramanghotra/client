@@ -45,7 +45,7 @@ const Register = ({ setAuth }) => {
 			} else {
 				// post request to backend
 				const response = await fetch(
-					"http://4.204.242.184:3001/auth/register",
+					"http://localhost:3001/auth/register",
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },

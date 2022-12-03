@@ -36,13 +36,10 @@ function App() {
 	const checkAuth = async () => {
 		console.log("check auth");
 		try {
-			const response = await fetch(
-				"http://4.204.242.184:3001/auth/verify",
-				{
-					method: "GET",
-					headers: { token: localStorage.token },
-				}
-			);
+			const response = await fetch("http://localhost:3001/auth/verify", {
+				method: "GET",
+				headers: { token: localStorage.token },
+			});
 			const parseRes = await response.json();
 			console.log(parseRes);
 

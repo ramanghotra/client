@@ -38,7 +38,7 @@ const Admin = ({ setAuth }) => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/admin",
+				"http://localhost:3001/profile/admin",
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -67,7 +67,7 @@ const Admin = ({ setAuth }) => {
 			const body = { deck_id };
 
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/admin/delete/deck",
+				"http://localhost:3001/profile/admin/delete/deck",
 				{
 					method: "DELETE",
 					headers: {
@@ -95,7 +95,7 @@ const Admin = ({ setAuth }) => {
 		try {
 			const body = { user_id };
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/delete/user",
+				"http://localhost:3001/profile/delete/user",
 				{
 					method: "DELETE",
 					headers: {
@@ -120,7 +120,7 @@ const Admin = ({ setAuth }) => {
 		try {
 			const body = { message };
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/admin/banner",
+				"http://localhost:3001/profile/admin/banner",
 				{
 					method: "POST",
 					headers: {

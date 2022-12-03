@@ -28,7 +28,7 @@ const ProfileDeck = ({ decks }) => {
 		try {
 			const body = { deck_id };
 			const response = await fetch(
-				"http://4.204.242.184:3001/profile/delete/deck",
+				"http://localhost:3001/profile/delete/deck",
 				{
 					method: "DELETE",
 					headers: {
@@ -50,7 +50,7 @@ const ProfileDeck = ({ decks }) => {
 		try {
 			const body = { deck_id: deck_id };
 			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -72,7 +72,7 @@ const ProfileDeck = ({ decks }) => {
 		try {
 			const body = { deck_id: deck_id };
 			const response = await fetch(
-				"http://4.204.242.184:3001/dashboard/favourites",
+				"http://localhost:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {
@@ -90,6 +90,16 @@ const ProfileDeck = ({ decks }) => {
 		updateDecks();
 	};
 
+	/**
+	 * Begin the studying session
+	 * @param {*} e
+	 * @param {*} deck_id
+	 */
+	const onStudyButtonClick = (e, deck_id) => {
+		e.preventDefault();
+		navigate(`/study/${deck_id}`);
+	};
+
 	return (
 		<div className="row">
 			{decksList.map((deck) => {
@@ -103,9 +113,14 @@ const ProfileDeck = ({ decks }) => {
 								<p className="card-text">
 									{deck.deck_description}
 								</p>
-								<a href="#" class="btn btn-primary">
+								<button
+									className="btn btn-primary"
+									onClick={(e) =>
+										onStudyButtonClick(e, deck.deck_id)
+									}
+								>
 									Study
-								</a>
+								</button>
 								{deck.favourite ? (
 									<button
 										className="btn btn-link btn-small"

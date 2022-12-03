@@ -10,7 +10,7 @@ const View = ({ setAuth }) => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://4.204.242.184:3001/study/view/info/${id}`,
+				`http://localhost:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

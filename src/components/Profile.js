@@ -11,7 +11,7 @@ const Profile = ({ setAuth }) => {
 	 */
 	async function fetchData() {
 		try {
-			const response = await fetch("http://4.204.242.184:3001/profile", {
+			const response = await fetch("http://localhost:3001/profile", {
 				method: "GET",
 				headers: { token: localStorage.token },
 			});
