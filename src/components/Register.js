@@ -14,7 +14,7 @@ const Register = ({ setAuth }) => {
 
 	/**
 	 * Set state for the inputs
-	 * @param {*} e 
+	 * @param {*} e
 	 */
 	const onChange = (e) => {
 		setInputs({ ...inputs, [e.target.id]: e.target.value });
@@ -22,8 +22,8 @@ const Register = ({ setAuth }) => {
 
 	/**
 	 * Submit the form to register
-	 * @param {*} e 
-	 * @returns 
+	 * @param {*} e
+	 * @returns
 	 */
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
@@ -45,7 +45,7 @@ const Register = ({ setAuth }) => {
 			} else {
 				// post request to backend
 				const response = await fetch(
-					"http://localhost:3001/auth/register",
+					"http://4.204.242.184:3001/auth/register",
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },

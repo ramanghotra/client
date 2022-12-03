@@ -26,7 +26,7 @@ const Create = ({ setAuth }) => {
 		e.preventDefault();
 		try {
 			const body = { deckName, deckDescription, courseInfo };
-			const response = await fetch("http://localhost:3001/create", {
+			const response = await fetch("http://4.204.242.184:3001/create", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -46,7 +46,7 @@ const Create = ({ setAuth }) => {
 
 	/**
 	 * Set state for the inputs
-	 * @param {*} e 
+	 * @param {*} e
 	 */
 	const onChange = (e) => {
 		setInputs({ ...inputs, [e.target.id]: e.target.value });

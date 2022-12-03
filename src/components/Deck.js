@@ -21,7 +21,7 @@ const Deck = ({ decks }) => {
 		try {
 			const body = { deck_id: deck_id };
 			const response = await fetch(
-				"http://localhost:3001/dashboard/favourites",
+				"http://4.204.242.184:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -49,7 +49,7 @@ const Deck = ({ decks }) => {
 		try {
 			const body = { deck_id: deck_id };
 			const response = await fetch(
-				"http://localhost:3001/dashboard/favourites",
+				"http://4.204.242.184:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {
@@ -70,8 +70,8 @@ const Deck = ({ decks }) => {
 
 	/**
 	 * View the cards in the deck
-	 * @param {*} e 
-	 * @param {*} deck_id 
+	 * @param {*} e
+	 * @param {*} deck_id
 	 */
 	const onViewButtonClick = (e, deck_id) => {
 		e.preventDefault();
@@ -80,8 +80,8 @@ const Deck = ({ decks }) => {
 
 	/**
 	 * Begin the studying session
-	 * @param {*} e 
-	 * @param {*} deck_id 
+	 * @param {*} e
+	 * @param {*} deck_id
 	 */
 	const onStudyButtonClick = (e, deck_id) => {
 		e.preventDefault();

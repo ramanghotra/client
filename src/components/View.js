@@ -5,12 +5,12 @@ const View = ({ setAuth }) => {
 	const [deck, setDeck] = useState([]);
 	const [cardsList, setCards] = useState([]);
 	const { id } = useParams();
-	
+
 	// get the deck name and all its cards from the database
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://localhost:3001/study/view/info/${id}`,
+				`http://4.204.242.184:3001/study/view/info/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },

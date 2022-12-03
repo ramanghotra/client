@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 /**
- * 
- * @param {*} param0 
- * @returns 
+ *
+ * @param {*} param0
+ * @returns
  */
 const CreateCards = ({ setAuth }) => {
 	const [name, setName] = useState("");
@@ -36,14 +36,17 @@ const CreateCards = ({ setAuth }) => {
 		try {
 			const body = { question, answer, deck_id };
 
-			const response = await fetch("http://localhost:3001/create/cards", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					token: localStorage.token,
-				},
-				body: JSON.stringify(body),
-			});
+			const response = await fetch(
+				"http://4.204.242.184:3001/create/cards",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						token: localStorage.token,
+					},
+					body: JSON.stringify(body),
+				}
+			);
 
 			const parseRes = await response.json();
 			if (parseRes) {
@@ -61,7 +64,7 @@ const CreateCards = ({ setAuth }) => {
 
 	/**
 	 * Set state for the inputs
-	 * @param {*} e 
+	 * @param {*} e
 	 */
 	const onChange = (e) => {
 		setInputs({ ...inputs, [e.target.id]: e.target.value });

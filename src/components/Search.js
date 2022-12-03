@@ -11,7 +11,7 @@ const Search = () => {
 	async function fetchData() {
 		try {
 			const response = await fetch(
-				`http://localhost:3001/search/decks/${searchTerm.id}`,
+				`http://4.204.242.184:3001/search/decks/${searchTerm.id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
