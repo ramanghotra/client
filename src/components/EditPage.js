@@ -30,10 +30,10 @@ const EditPage = ({ setAuth }) => {
 	 * Get the deck and cards from the database
 	 */
 	async function fetchData() {
-		// get the deck name and all its cards from the database at the localhost:3001/decks/:deck_id route
+		// get the deck name and all its cards from the database at the 4.204.242.184:3001/decks/:deck_id route
 		try {
 			const response = await fetch(
-				`http://localhost:3001/profile/edit/${id}`,
+				`http://4.204.242.184:3001/profile/edit/${id}`,
 				{
 					method: "GET",
 					headers: { token: localStorage.token },
@@ -65,7 +65,7 @@ const EditPage = ({ setAuth }) => {
 			// only send flashcard_id, question, answer to the backend
 			const body = { flashcard_id, updatedQuestion, updatedAnswer };
 			const response = await fetch(
-				`http://localhost:3001/profile/edit/card`,
+				`http://4.204.242.184:3001/profile/edit/card`,
 				{
 					method: "PUT",
 					headers: {
@@ -89,7 +89,7 @@ const EditPage = ({ setAuth }) => {
 		try {
 			const body = { card_id };
 			const response = await fetch(
-				`http://localhost:3001/profile/delete/card`,
+				`http://4.204.242.184:3001/profile/delete/card`,
 				{
 					method: "DELETE",
 					headers: {

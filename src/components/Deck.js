@@ -21,7 +21,7 @@ const Deck = ({ decks }) => {
 		try {
 			const body = { deck_id: deck_id };
 			const response = await fetch(
-				"http://localhost:3001/dashboard/favourites",
+				"http://4.204.242.184:3001/dashboard/favourites",
 				{
 					method: "POST",
 					headers: {
@@ -49,7 +49,7 @@ const Deck = ({ decks }) => {
 		try {
 			const body = { deck_id: deck_id };
 			const response = await fetch(
-				"http://localhost:3001/dashboard/favourites",
+				"http://4.204.242.184:3001/dashboard/favourites",
 				{
 					method: "DELETE",
 					headers: {

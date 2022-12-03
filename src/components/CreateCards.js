@@ -36,14 +36,17 @@ const CreateCards = ({ setAuth }) => {
 		try {
 			const body = { question, answer, deck_id };
 
-			const response = await fetch("http://localhost:3001/create/cards", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					token: localStorage.token,
-				},
-				body: JSON.stringify(body),
-			});
+			const response = await fetch(
+				"http://4.204.242.184:3001/create/cards",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						token: localStorage.token,
+					},
+					body: JSON.stringify(body),
+				}
+			);
 
 			const parseRes = await response.json();
 			if (parseRes) {
