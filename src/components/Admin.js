@@ -109,7 +109,7 @@ const Admin = ({ setAuth }) => {
 			const parseRes = await response.json();
 			updateUsers(user_id);
 		} catch (err) {
-			console.error(err.message + "From ProfileDeck.js");
+			console.error(err.message + "From Admin.js");
 		}
 	};
 
